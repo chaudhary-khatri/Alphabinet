@@ -47,7 +47,7 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 w-full bg-white shadow-md">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <Link href="/" className="flex items-center space-x-3">
-          <Image src="/Mainlogo.svg" alt="Logo" width={40} height={40} className="object-contain" />
+          <Image src="/logo.png" alt="Logo" width={40} height={40} className="object-contain" />
           <span className="text-2xl font-bold text-maroon-700">Alphabinet</span>
         </Link>
 
