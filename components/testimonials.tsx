@@ -2,19 +2,36 @@
 
 import { motion, LazyMotion, domAnimation, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { FaQuoteLeft } from 'react-icons/fa';
+import { FaQuoteLeft, FaQuoteRight } from 'react-icons/fa';
 
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1, ease: [0.16, 1, 0.3, 1], duration: 0.6 }
+    transition: {
+      staggerChildren: 0.1,
+      ease: [0.16, 1, 0.3, 1],
+      duration: 0.6,
+      when: "beforeChildren"
+    }
   }
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } }
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      ease: [0.16, 1, 0.3, 1],
+    }
+  },
+  hover: {
+    y: -8,
+    transition: { duration: 0.3, ease: "easeOut" }
+  }
 };
 
 export default function TestimonialsSection() {
@@ -34,20 +51,16 @@ export default function TestimonialsSection() {
 
   const getInitialCount = () => {
     const w = window.innerWidth;
-    if (w < 640) return 3;     // mobile
-    if (w < 1024) return 4;    // tablet / medium
-    return 6;                  // desktop
+    if (w < 640) return 3;
+    if (w < 1024) return 4;
+    return 6;
   };
 
   const [count, setCount] = useState(0);
   const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => {
-      if (!showAll) {
-        setCount(getInitialCount());
-      }
-    };
+    const handleResize = () => !showAll && setCount(getInitialCount());
     setCount(getInitialCount());
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -57,23 +70,32 @@ export default function TestimonialsSection() {
 
   return (
     <LazyMotion features={domAnimation}>
-      <section id="testimonials" className="py-24 bg-gray-50 relative overflow-hidden">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="testimonials" className="py-24 bg-gray-50 dark:bg-gray-950 relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 opacity-10 dark:opacity-[3%] pointer-events-none">
+          <div className="absolute inset-0 bg-[url('/svg/grid-pattern.svg')] bg-[size:120px_120px]" />
+        </div>
+
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
+            viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-20"
           >
-            <span className="inline-block px-4 py-1 bg-maroon-100 text-maroon-600 rounded-full text-sm font-semibold mb-3">
-              Testimonials
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">
-              What Our Clients Say
+            <motion.span
+              initial={{ scale: 0.8 }}
+              whileInView={{ scale: 1 }}
+              className="inline-block px-6 py-2 bg-maroon-100/80 dark:bg-maroon-900/50 text-maroon-600 dark:text-maroon-300 rounded-full text-sm font-medium mb-4 border border-maroon-200/30 dark:border-maroon-800/50"
+            >
+              Client Voices
+            </motion.span>
+            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-5">
+              Success <span className="text-maroon-600 dark:text-maroon-400">Stories</span>
             </h2>
-            <p className="max-w-2xl mx-auto text-gray-600 text-base sm:text-lg">
-              Real feedback from businesses across India.
+            <p className="max-w-3xl mx-auto text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+              Discover why businesses across India trust us with their digital transformation journeys.
             </p>
           </motion.div>
 
@@ -82,50 +104,75 @@ export default function TestimonialsSection() {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
             variants={containerVariants}
             initial="hidden"
-            animate="visible"
+            whileInView="visible"
+            viewport={{ once: true, margin: "0px 0px -100px 0px" }}
           >
-            <AnimatePresence>
+            <AnimatePresence mode='popLayout'>
               {visibleTestimonials.map((t, i) => (
                 <motion.div
                   key={i}
                   variants={itemVariants}
-                  exit={{ opacity: 0 }}
-                  className="group relative overflow-hidden rounded-xl backdrop-blur-md bg-white/80 border border-maroon-100 shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col"
+                  whileHover="hover"
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  className="group relative overflow-hidden rounded-2xl backdrop-blur-md bg-white/80 dark:bg-gray-900/70 border border-maroon-100/30 dark:border-gray-800/50 shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col"
                   role="listitem"
                 >
+                  {/* Animated gradient overlay */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute -inset-8 bg-gradient-to-r from-maroon-500/10 to-transparent opacity-30 animate-gradient-rotate" />
+                  </div>
+
+                  {/* Dynamic grid background */}
                   <svg
-                    className="absolute inset-0 w-full h-full text-maroon-200 opacity-10 pointer-events-none"
+                    className="absolute inset-0 w-full h-full text-maroon-200/20 dark:text-gray-800/50 pointer-events-none"
                     viewBox="0 0 100 100"
                     preserveAspectRatio="none"
                   >
-                    <pattern id={`grid${i}`} width="10" height="10" patternUnits="userSpaceOnUse">
-                      <path d="M 10 0 L 0 0 0 10" fill="none" stroke="currentColor" strokeWidth="0.5" />
+                    <pattern id={`diagonal-grid-${i}`} width="15" height="15" patternUnits="userSpaceOnUse">
+                      <path d="M 0 0 L 15 0 15 15" fill="none" stroke="currentColor" strokeWidth="0.8" />
                     </pattern>
-                    <rect width="100%" height="100%" fill={`url(#grid${i})`} />
+                    <rect width="100%" height="100%" fill={`url(#diagonal-grid-${i})`} />
                   </svg>
 
-                  <div className="relative z-10 p-6 flex-grow">
-                    <FaQuoteLeft className="text-maroon-400 text-3xl mb-4 opacity-30" />
-                    <p className="text-gray-800 text-base mb-6">{t.quote}</p>
+                  <div className="relative z-10 p-8 flex-grow">
+                    <FaQuoteLeft className="text-maroon-400/60 dark:text-maroon-500/40 text-4xl mb-6" />
+                    <p className="text-gray-800 dark:text-gray-200 text-lg leading-relaxed mb-8">
+                      {t.quote}
+                    </p>
+                    <FaQuoteRight className="text-maroon-400/60 dark:text-maroon-500/40 text-4xl ml-auto" />
                   </div>
-                  <div className="relative z-10 px-6 py-4 border-t border-gray-100 bg-white">
-                    <p className="text-gray-900 font-semibold">{t.author}</p>
-                    <p className="text-gray-500 text-sm">{t.position}, {t.company}</p>
+
+                  <div className="relative z-10 px-8 py-6 border-t border-gray-100/50 dark:border-gray-800/50 bg-white/50 dark:bg-gray-900/70">
+                    <p className="text-gray-900 dark:text-gray-100 font-semibold">{t.author}</p>
+                    <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
+                      {t.position} <span className="mx-2">•</span> {t.company}
+                    </p>
                   </div>
                 </motion.div>
               ))}
             </AnimatePresence>
           </motion.div>
 
-          {(testimonials.length > count || showAll) && (
-            <div className="text-center mt-12">
+          {testimonials.length > count && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              className="text-center mt-16"
+            >
               <button
                 onClick={() => setShowAll(prev => !prev)}
-                className="inline-flex items-center px-6 py-3 bg-maroon-600 text-white rounded-full hover:bg-maroon-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-maroon-500 focus:ring-offset-2"
+                className="inline-flex items-center px-8 py-4 bg-maroon-600 hover:bg-maroon-700 dark:bg-maroon-700 dark:hover:bg-maroon-800 text-white rounded-full text-base font-medium shadow-lg hover:shadow-maroon-400/20 transition-all duration-300 group"
               >
-                {showAll ? 'Show Less' : 'Show All'}
+                <span className="mr-3">{showAll ? 'Show Less' : 'Show All'}</span>
+                <motion.span
+                  animate={{ x: showAll ? 0 : 4 }}
+                  transition={{ repeat: Infinity, repeatType: "mirror", duration: 1.2 }}
+                  className="inline-block group-hover:translate-x-1 transition-transform"
+                >
+                  {showAll ? '↑' : '↓'}
+                </motion.span>
               </button>
-            </div>
+            </motion.div>
           )}
         </div>
       </section>

@@ -4,13 +4,16 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import BackToTop from "@/components/back-to-top";
 import Footer from "@/components/footer";
+import Script from "next/script";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
+const GA_ID = "G-X1W45S53D8";
 
 export const metadata: Metadata = {
   title: "Alphabinet - Digital Solutions Agency",
   description:
-    "Alphabinet is a premier digital solutions agency offering web development, UI/UX design, e-commerce solutions, and more.",
+    "Alphabinet is an expert digital solutions agency offering web development, UI/UX design, e-commerce solutions, and more.",
   keywords: "digital agency, web development, UI/UX design, e-commerce, mobile app development, digital marketing",
   authors: [{ name: "Alphabinet Team" }],
   creator: "Alphabinet",
@@ -38,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Alphabinet - Digital Solutions Agency",
     description:
-      "Alphabinet is a premier digital solutions agency offering web development, UI/UX design, e-commerce solutions, and more.",
+      "Alphabinet is an expert digital solutions agency offering web development, UI/UX design, e-commerce solutions, and more.",
     url: "https://alphabinet.com",
     siteName: "Alphabinet",
     images: [
@@ -56,12 +59,17 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Alphabinet - Digital Solutions Agency",
     description:
-      "Alphabinet is a premier digital solutions agency offering web development, UI/UX design, e-commerce solutions, and more.",
+      "Alphabinet is an expert digital solutions agency offering web development, UI/UX design, e-commerce solutions, and more.",
     images: ["https://alphabinet.com/twitter-image.jpg"],
   },
   icons: {
-    icon: "/favicon_io/favicon.ico",
-    shortcut: "/favicon_io/favicon-16x16.png",
+    icon: [
+      { url: "/favicon_io/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/favicon_io/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
+      { url: "/favicon_io/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon_io/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      "/favicon_io/favicon.ico",
+    ],
     apple: "/favicon_io/apple-touch-icon.png",
   },
   manifest: "/favicon_io/site.webmanifest",
@@ -76,6 +84,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Google tag (gtag.js) */}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_ID}', { page_path: window.location.pathname });`}
+        </Script>
+
         {/* Google Search Console Verification */}
         <meta name="google-site-verification" content="your-verification-code" />
 
@@ -106,12 +126,6 @@ export default function RootLayout({
           }}
         />
 
-        {/* Favicon Links */}
-        <link rel="icon" href="/favicon_io/favicon.ico" />
-        <link rel="shortcut icon" href="/favicon_io/favicon-16x16.png" />
-        <link rel="apple-touch-icon" href="/favicon_io/apple-touch-icon.png" />
-        <link rel="manifest" href="/favicon_io/site.webmanifest" />
-
         {/* Preconnect for Google Fonts */}
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
@@ -123,6 +137,7 @@ export default function RootLayout({
         {children}
         <Footer />
         <BackToTop />
+        <Analytics />
       </body>
     </html>
   );

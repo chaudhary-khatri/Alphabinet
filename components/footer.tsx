@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter } from "lucide-react"
-import Logo from "@/components/logo"
+import Image from "next/image"
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -14,7 +14,7 @@ export default function Footer() {
           <div className="space-y-4">
             <Link href="/" className="inline-block">
               <div className="flex items-center">
-                <Logo className="h-10 w-auto text-white" />
+                <Image src="/mainlogo.svg" alt="Logo" width={40} height={40} className="object-contain" />
                 <span className="ml-2 text-xl font-bold text-white">
                   Alpha<span className="text-maroon-400">binet</span>
                 </span>
@@ -284,16 +284,18 @@ export default function Footer() {
             </div>
             <div className="flex space-x-4">
               <Link
-                href="https://facebook.com"
+                href="https://www.facebook.com/profile.php?id=61573907115570"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="bg-gray-800 hover:bg-maroon-600 transition-colors p-3 rounded-full"
               >
                 <Facebook className="h-5 w-5" />
                 <span className="sr-only">Facebook</span>
               </Link>
               <Link
-                href="https://instagram.com"
+                href="https://instagram.com/alphabinet"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="bg-gray-800 hover:bg-maroon-600 transition-colors p-3 rounded-full"
               >
                 <Instagram className="h-5 w-5" />
@@ -302,14 +304,16 @@ export default function Footer() {
               <Link
                 href="https://twitter.com"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="bg-gray-800 hover:bg-maroon-600 transition-colors p-3 rounded-full"
               >
                 <Twitter className="h-5 w-5" />
                 <span className="sr-only">Twitter</span>
               </Link>
               <Link
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/alphabinet-global-9b2005362/"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="bg-gray-800 hover:bg-maroon-600 transition-colors p-3 rounded-full"
               >
                 <Linkedin className="h-5 w-5" />

@@ -5,111 +5,151 @@ import Link from "next/link";
 import Image from "next/image";
 import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useRef } from "react";
+import { useInView } from "framer-motion";
 
 const PortfolioItem: React.FC<{ image: string; title: string; category: string }> = ({
   image,
   title,
   category,
 }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "0px 0px -100px 0px" });
+
   return (
-    <div className="group relative overflow-hidden rounded-xl backdrop-blur-md bg-white/80 border border-maroon-100 shadow-md hover:shadow-lg transition-shadow duration-300">
-      {/* Maroon grid line background */}
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6 }}
+      className="group relative overflow-hidden rounded-2xl backdrop-blur-md bg-white/80 border border-maroon-100/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-maroon-200 dark:bg-gray-900/70 dark:border-maroon-900/80 dark:hover:border-maroon-800"
+    >
+      {/* Animated gradient overlay */}
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="absolute -inset-8 bg-gradient-to-r from-maroon-500/10 to-transparent opacity-30 animate-gradient-rotate" />
+      </div>
+
+      {/* Dynamic grid background */}
       <svg
-        className="absolute inset-0 w-full h-full text-maroon-200 opacity-20 pointer-events-none"
+        className="absolute inset-0 w-full h-full text-maroon-200/30 dark:text-maroon-900/30 pointer-events-none"
         viewBox="0 0 100 100"
         preserveAspectRatio="none"
       >
-        <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-          <path d="M 10 0 L 0 0 0 10" fill="none" stroke="currentColor" strokeWidth="0.5" />
+        <pattern id="diagonal-grid" width="15" height="15" patternUnits="userSpaceOnUse">
+          <path d="M 0 0 L 15 0 15 15" fill="none" stroke="currentColor" strokeWidth="0.8" />
         </pattern>
-        <rect width="100%" height="100%" fill="url(#grid)" />
+        <rect width="100%" height="100%" fill="url(#diagonal-grid)" />
       </svg>
 
-      <div className="aspect-video overflow-hidden relative">
+      <div className="aspect-video overflow-hidden relative rounded-t-2xl">
         <Image
           src={image}
           alt={title}
           width={800}
           height={600}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          sizes="(max-width: 640px) 90vw, (max-width: 1024px) 50vw, 33vw"
+          priority={false}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
 
-      <div className="relative z-10 p-6">
-        <div className="text-xs uppercase tracking-wider text-maroon-500 mb-2 font-semibold">
+      <div className="relative z-10 p-6 space-y-3">
+        <div className="inline-flex items-center px-3 py-1 bg-maroon-100/80 dark:bg-maroon-900/50 text-maroon-600 dark:text-maroon-300 rounded-full text-xs font-medium tracking-wide border border-maroon-200/30 dark:border-maroon-800/50">
           {category}
         </div>
-        <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2 group-hover:text-maroon-700 transition-colors duration-300">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-maroon-700 dark:group-hover:text-maroon-400 transition-colors duration-300">
           {title}
         </h3>
-        <Link
-          href="#"
-          className="inline-flex items-center text-maroon-600 hover:text-maroon-700 font-medium text-sm transition"
-        >
-          View Project
-          <ChevronRight className="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" />
-        </Link>
+        <motion.div whileHover={{ x: 4 }} className="inline-block">
+          <Link
+            href="#"
+            className="inline-flex items-center text-maroon-600 hover:text-maroon-700 dark:text-maroon-300 dark:hover:text-maroon-400 font-medium text-sm transition-colors"
+          >
+            View Case Study
+            <ChevronRight className="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
 export default function Portfolio() {
+
   const projects = [
-    { image: "/portfolio/web1.jpg", title: "E‑Commerce Platform", category: "Web Development" },
-    { image: "/portfolio/Thequestionpaperslogo3.svg?height=600&width=800", title: "TheQuestionPapers Website", category: "Web Development" },
-    { image: "/placeholder.svg?height=600&width=800", title: "Mobile Banking App", category: "Mobile Development" },
-    { image: "/placeholder.svg?height=600&width=800", title: "Healthcare Dashboard", category: "Web Application" },
-    { image: "/placeholder.svg?height=600&width=800", title: "Restaurant Booking System", category: "Full‑Stack Development" },
-    { image: "/placeholder.svg?height=600&width=800", title: "Real Estate Platform", category: "Web Development" },
-  ];
+  { image: '/portfolio/web1.jpg', title: 'Corporate Website Rebuild', category: 'Web Development' },
+  { image: '/portfolio/webdesign.jpg', title: 'Freelancer Portfolio Site', category: 'Web Development' },
+  { image: '/portfolio/dashboard.jpg', title: 'Analytics Dashboard UI', category: 'UI/UX Design' },
+  { image: '/portfolio/wireframe.jpg', title: 'Mobile App Wireframes', category: 'UI/UX Design' },
+  { image: '/portfolio/ecommerce.jpg', title: 'Fashion E-Commerce Store', category: 'E-Commerce Solutions' },
+  { image: '/portfolio/dilevery.jpg', title: 'Grocery Delivery Platform', category: 'E-Commerce Solutions' },
+  { image: '/portfolio/crm.jpg', title: 'CRM System', category: 'Custom Web Applications' },
+  { image: '/portfolio/inventory.jpg', title: 'Inventory Management App', category: 'Custom Web Applications' },
+  { image: '/portfolio/fitness.jpg', title: 'Fitness Tracker App', category: 'Mobile App Development' },
+  { image: '/portfolio/payment.jpg', title: 'UPI Payment Wallet', category: 'Mobile App Development' },
+  { image: '/portfolio/ads.jpg', title: 'Social Media Campaign', category: 'Digital Marketing' },
+  { image: '/portfolio/seo.jpg', title: 'SEO Optimization Case Study', category: 'Digital Marketing' },
+];
+
 
   return (
-    <section id="portfolio" className="py-24 bg-gray-50 relative">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="portfolio" className="py-24 bg-gray-50/50 dark:bg-gray-950 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 opacity-10 dark:opacity-5 pointer-events-none">
+        <div className="absolute inset-0 bg-[url('/svg/grid-pattern.svg')] bg-[size:120px_120px]" />
+      </div>
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-20"
         >
-          <span className="inline-block px-4 py-1 bg-maroon-100 text-maroon-600 rounded-full text-sm font-semibold mb-3">
+          <motion.span
+            initial={{ scale: 0.8 }}
+            whileInView={{ scale: 1 }}
+            className="inline-block px-6 py-2 bg-maroon-100/80 dark:bg-maroon-900/50 text-maroon-600 dark:text-maroon-300 rounded-full text-sm font-medium mb-4 border border-maroon-200/30 dark:border-maroon-800/50"
+          >
             Our Work
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">
-            Featured Projects
+          </motion.span>
+          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-5">
+            Crafting Digital <span className="text-maroon-600 dark:text-maroon-400">Excellence</span>
           </h2>
-          <p className="max-w-2xl mx-auto text-gray-600 text-base sm:text-lg">
-            Explore our recent projects and see how we've helped businesses achieve their digital goals.
+          <p className="max-w-3xl mx-auto text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+            Discover how we transform ideas into impactful digital experiences through innovation and technical expertise.
           </p>
         </motion.div>
 
         {/* Project Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-            >
-              <PortfolioItem {...project} />
-            </motion.div>
+            <PortfolioItem key={i} {...project} />
           ))}
         </div>
 
         {/* Call to Action */}
-        <div className="text-center mt-16">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2 }}
+          className="text-center mt-20"
+        >
           <Link href="#contact">
-            <Button className="bg-maroon-600 hover:bg-maroon-700 text-white px-6 py-3 text-base shadow-lg hover:shadow-maroon-400 transition">
-              Start Your Project
+            <Button
+              className="relative overflow-hidden px-8 py-6 text-lg bg-maroon-600 hover:bg-maroon-700 dark:bg-maroon-700 dark:hover:bg-maroon-800 text-white shadow-xl hover:shadow-maroon-400/30 transition-all"
+              size="lg"
+            >
+              <span className="relative z-10">Start Your Journey</span>
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute -inset-8 bg-gradient-to-r from-maroon-500/20 to-transparent animate-gradient-rotate" />
+              </div>
             </Button>
           </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
