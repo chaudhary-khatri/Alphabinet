@@ -31,7 +31,7 @@ const TopWave = () => (
 // ─── Static Grid SVG Background ────────────────────────────────────────────────
 const GridBackground = () => (
   <svg
-    className="absolute inset-0 w-full h-full opacity-5 pointer-events-none z-0"
+    className="absolute inset-0 w-full h-full opacity-5 pointer-events-none"
     viewBox="0 0 100 100"
     preserveAspectRatio="none"
   >
@@ -47,7 +47,7 @@ const GridBackground = () => (
 // ─── Small Animated Blob ───────────────────────────────────────────────────────
 const SmallBlob = () => (
   <motion.div
-    className="absolute w-32 h-32 bg-maroon-500 rounded-full opacity-20 z-0"
+    className="absolute w-32 h-32 bg-maroon-500 rounded-full opacity-20"
     initial={{ x: 0, y: 0 }}
     animate={{ x: [-10, 10, -10], y: [-10, 10, -10] }}
     transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
@@ -57,10 +57,10 @@ const SmallBlob = () => (
 // ─── Floating Particle ─────────────────────────────────────────────────────────
 const Particle = () => (
   <motion.div
-    className="absolute w-2 h-2 bg-maroon-400 rounded-full opacity-50 z-0"
+    className="absolute w-2 h-2 bg-maroon-400 rounded-full opacity-50"
     initial={{
-      x: Math.random() * 100 + '%',
-      y: Math.random() * 100 + '%',
+      x: `${Math.random() * 100}%`,
+      y: `${Math.random() * 100}%`,
       scale: 0,
     }}
     animate={{
@@ -91,10 +91,10 @@ export default function Contact() {
   const [success, setSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Intersection + animation controls
   const controls = useAnimation();
   const { ref, inView } = useInView({ threshold: 0.1 });
   const [hasAnimated, setHasAnimated] = useState(false);
+
   useEffect(() => {
     if (inView && !hasAnimated) {
       controls.start('visible');
@@ -102,7 +102,6 @@ export default function Contact() {
     }
   }, [inView, hasAnimated, controls]);
 
-  // Validation logic
   const validateField = (name: string, value: string) => {
     const errs = { ...errors };
     switch (name) {
@@ -128,9 +127,9 @@ export default function Contact() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    const updated = name === 'phone' ? formatPhone(value) : value;
-    setFormData(prev => ({ ...prev, [name]: updated }));
-    if (errors[name]) validateField(name, updated);
+    const updatedValue = name === 'phone' ? formatPhone(value) : value;
+    setFormData(prev => ({ ...prev, [name]: updatedValue }));
+    if (errors[name]) validateField(name, updatedValue);
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) =>
@@ -139,14 +138,16 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isSubmitting) return;
+
     const valid = Object.keys(formData).every(field =>
       validateField(field, formData[field as keyof typeof formData])
     );
+
     if (!valid) return;
 
     setIsSubmitting(true);
     try {
-      await new Promise(r => setTimeout(r, 1000));
+      await new Promise(resolve => setTimeout(resolve, 1000));
       setSuccess(true);
       setFormData({ name: '', email: '', phone: '', message: '' });
       setTimeout(() => setSuccess(false), 3000);
@@ -179,8 +180,6 @@ export default function Contact() {
       className="relative bg-gradient-to-br from-white to-gray-100 pt-16 pb-24 overflow-hidden"
     >
       <TopWave />
-
-      {/* Floating particles */}
       <div className="absolute inset-0 overflow-hidden z-0">
         {Array.from({ length: 20 }).map((_, i) => (
           <Particle key={i} />
@@ -204,16 +203,12 @@ export default function Contact() {
               Digital Future
             </span>
           </h2>
-          <motion.p
-            className="text-lg text-maroon-400"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-          >
+          <p className="text-lg text-maroon-400">
             Reach out and let's discuss how we can bring your digital aspirations to life.
-          </motion.p>
+          </p>
         </motion.div>
 
+        {/* Grid Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Contact Info Card */}
           <motion.div
@@ -224,15 +219,15 @@ export default function Contact() {
           >
             <GridBackground />
             <SmallBlob />
-            <h3 className="text-2xl font-semibold text-white mb-6 relative z-10">
-              Contact Information
-            </h3>
+            <h3 className="text-2xl font-semibold text-white mb-6 relative z-10">Contact Information</h3>
             <ul className="space-y-4 relative z-10">
               {contacts.map((c, i) => (
                 <li key={i}>
                   <a
                     href={c.href}
-                    className="flex items-center gap-3 p-3 rounded-xl bg-red-400 bg-opacity-50  hover:bg-maroon-500 transition"
+                    className="flex items-center gap-3 p-3 rounded-xl bg-red-400 bg-opacity-50 hover:bg-maroon-500 transition"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     <div className="p-3 bg-maroon-700 rounded-xl">
                       <c.icon className="text-xl text-white" />
@@ -257,9 +252,7 @@ export default function Contact() {
           >
             <GridBackground />
             <SmallBlob />
-            <h3 className="text-2xl font-semibold text-white mb-6 relative z-10">
-              Send Us a Message
-            </h3>
+            <h3 className="text-2xl font-semibold text-white mb-6 relative z-10">Send Us a Message</h3>
             <div className="space-y-6 relative z-10">
               {(['name', 'email', 'phone', 'message'] as const).map((field, idx) => (
                 <div key={idx}>
@@ -300,7 +293,7 @@ export default function Contact() {
           </motion.form>
         </div>
 
-        {/* Follow Us Card (Optional) */}
+        {/* Follow Us */}
         <motion.div
           initial="hidden"
           animate={controls}
@@ -309,8 +302,8 @@ export default function Contact() {
         >
           <GridBackground />
           <SmallBlob />
-          <h3 className="text-2xl font-semibold text-white mb-6 relative z-10 text-center">Follow Us</h3>
-          <div className="flex justify-center gap-6 relative z-10">
+          <h3 className="text-2xl font-semibold text-white mb-6 text-center">Follow Us</h3>
+          <div className="flex justify-center gap-6">
             {socials.map((s, i) => (
               <a
                 key={i}

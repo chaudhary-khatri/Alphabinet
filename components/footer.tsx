@@ -69,8 +69,13 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="hover:text-maroon-400 transition-colors">
-                  Blog
+                <Link href="/terms" className="hover:text-maroon-400 transition-colors">
+                  Terms & Conditions
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacy-policy" className="hover:text-maroon-400 transition-colors">
+                Privacy policy
                 </Link>
               </li>
             </ul>
@@ -81,32 +86,32 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-4 text-white">Our Services</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/services/web-development" className="hover:text-maroon-400 transition-colors">
+                <Link href="#services" className="hover:text-maroon-400 transition-colors">
                   Web Development
                 </Link>
               </li>
               <li>
-                <Link href="/services/ui-ux-design" className="hover:text-maroon-400 transition-colors">
+                <Link href="#services" className="hover:text-maroon-400 transition-colors">
                   UI/UX Design
                 </Link>
               </li>
               <li>
-                <Link href="/services/ecommerce" className="hover:text-maroon-400 transition-colors">
+                <Link href="#services" className="hover:text-maroon-400 transition-colors">
                   E-Commerce Solutions
                 </Link>
               </li>
               <li>
-                <Link href="/services/mobile-apps" className="hover:text-maroon-400 transition-colors">
+                <Link href="#services" className="hover:text-maroon-400 transition-colors">
                   Mobile App Development
                 </Link>
               </li>
               <li>
-                <Link href="/services/digital-marketing" className="hover:text-maroon-400 transition-colors">
+                <Link href="#services" className="hover:text-maroon-400 transition-colors">
                   Digital Marketing
                 </Link>
               </li>
               <li>
-                <Link href="/services/custom-applications" className="hover:text-maroon-400 transition-colors">
+                <Link href="#services" className="hover:text-maroon-400 transition-colors">
                   Custom Web Applications
                 </Link>
               </li>
@@ -261,7 +266,7 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/terms-of-service" className="hover:text-maroon-400 transition-colors">
+                  <Link href="/terms" className="hover:text-maroon-400 transition-colors">
                     Terms of Service
                   </Link>
                 </li>

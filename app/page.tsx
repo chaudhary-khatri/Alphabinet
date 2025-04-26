@@ -1,8 +1,9 @@
+// app/page.tsx
 "use client";
 
-import { motion } from "framer-motion"; // Add this import
-import Link from "next/link"; // Import Link from next/link
-import Navbar from "@/components/navbar/Navbar"; // Import Navbar component
+import { motion } from "framer-motion";
+import Link from "next/link";
+import Navbar from "@/components/navbar/Navbar";
 import HeroSection from "@/components/hero";
 import ClientsSection from "@/components/clients";
 import ServicesSection from "@/components/services";
@@ -11,28 +12,46 @@ import Portfolio from "@/components/portfolio";
 import AboutSection from "@/components/about";
 import TestimonialsSection from "@/components/testimonials";
 import Contact from "@/components/contact";
-import { Button } from "@/components/ui/button"; // Make sure Button is imported
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50 scroll-smooth">
-      <Navbar /> {/* Use Navbar here */}
+      <Navbar />
 
-      {/* Main Content */}
       <main>
         <HeroSection />
         <ClientsSection />
-        <ServicesSection />
+
+        {/* Services Section with SEO enhancements */}
+        <section
+          id="services"
+          aria-label="Our Services"
+          className="py-16 scroll-mt-16"
+        >
+          <ServicesSection />
+        </section>
+
         <HowWeWork />
         <Portfolio />
-        <AboutSection />
+
+        {/* About Section with SEO enhancements */}
+        <section
+          id="about"
+          aria-label="About Us"
+          className="py-16 scroll-mt-16"
+        >
+          <AboutSection />
+        </section>
+
         <TestimonialsSection />
 
         {/* CTA Banner */}
-        <section className="relative py-16 bg-gradient-to-r from-maroon-700 to-maroon-900 text-white overflow-hidden">
-          {/* Grid background overlay */}
+        <section
+          className="relative py-16 bg-gradient-to-r from-maroon-700 to-maroon-900 text-white overflow-hidden"
+          aria-label="Get Started"
+        >
           <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:32px_32px]" />
-
           <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -49,7 +68,7 @@ export default function Home() {
                   Let's create something amazing together.
                 </p>
               </div>
-              <Link href="#contact">
+              <Link href="#contact" aria-label="Contact us">
                 <Button className="bg-white text-maroon-700 hover:bg-gray-100 px-6 py-3 text-base">
                   Get Started Today
                 </Button>
@@ -57,7 +76,6 @@ export default function Home() {
             </motion.div>
           </div>
         </section>
-
 
         {/* Contact Section */}
         <Contact />
