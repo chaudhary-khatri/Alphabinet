@@ -10,6 +10,13 @@ const stats = [
 ];
 
 export default function AboutSection() {
+  const onLinkClick = (id: string) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section 
       id="about" 
@@ -81,7 +88,7 @@ export default function AboutSection() {
               </p>
             </div>
 
-            {/* Stats Grid with internal grid lines */}
+            {/* Stats Grid */}
             <div
               className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 relative z-10 rounded-2xl p-2 backdrop-blur-sm bg-white/70"
               style={{
@@ -110,6 +117,22 @@ export default function AboutSection() {
                 </motion.div>
               ))}
             </div>
+
+            {/* Call-to-Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 mt-10">
+              <button
+                onClick={() => onLinkClick("services")}
+                className="bg-maroon-600 text-white hover:bg-maroon-700 px-6 py-3 text-base rounded-md transition-colors"
+              >
+                Our Services
+              </button>
+              <button
+                onClick={() => onLinkClick("contact")}
+                className="border border-maroon-600 text-maroon-600 hover:bg-maroon-50 px-6 py-3 text-base rounded-md transition-colors"
+              >
+                Get in Touch
+              </button>
+            </div>
           </motion.div>
 
           {/* Image & Callout */}
@@ -122,7 +145,7 @@ export default function AboutSection() {
           >
             <div className="aspect-square rounded-3xl overflow-hidden bg-gray-100 relative border-4 border-white shadow-2xl">
               <Image
-                src="/Innovate.jpg"
+                src="/Innovate.webp"
                 alt="Alphabinet team collaborating in a modern office environment"
                 fill
                 className="object-cover saturate-110 hover:saturate-150 transition-all duration-500"

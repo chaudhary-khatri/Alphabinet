@@ -232,14 +232,14 @@ export default function Contact() {
                 <li key={i}>
                   <a
                     href={c.href}
-                    className="flex items-center gap-4 p-4 rounded-xl bg-red-400 bg-opacity-50  hover:bg-maroon-500 transition"
+                    className="flex items-center gap-3 p-3 rounded-xl bg-red-400 bg-opacity-50  hover:bg-maroon-500 transition"
                   >
                     <div className="p-3 bg-maroon-700 rounded-xl">
                       <c.icon className="text-xl text-white" />
                     </div>
                     <div>
                       <p className="text-sm text-maroon-300">{c.label}</p>
-                      <p className="text-base text-white font-medium">{c.value}</p>
+                      <p className="text-base text-white">{c.value}</p>
                     </div>
                   </a>
                 </li>
@@ -268,7 +268,7 @@ export default function Contact() {
                       name={field}
                       rows={4}
                       placeholder="Your Message"
-                      className="w-full px-4 py-3 rounded-xl bg-maroon-800 opacity-50 text-white placeholder-maroon-100 border border-white/20 focus:outline-none focus:ring-2 focus:ring-white"
+                      className="w-full px-4 py-3 rounded-xl bg-maroon-800 text-white placeholder-maroon-100 border border-white/20 focus:outline-none focus:ring-2 focus:ring-white"
                       value={formData.message}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -278,7 +278,7 @@ export default function Contact() {
                       type={field === 'email' ? 'email' : 'text'}
                       name={field}
                       placeholder={`Your ${field.charAt(0).toUpperCase() + field.slice(1)}`}
-                      className="w-full px-4 py-3 rounded-xl bg-maroon-800 opacity-50 text-white placeholder-maroon-100 border border-white/20 focus:outline-none focus:ring-2 focus:ring-white"
+                      className="w-full px-4 py-3 rounded-xl bg-maroon-800 text-white placeholder-maroon-100 border border-white/20 focus:outline-none focus:ring-2 focus:ring-white"
                       value={formData[field]}
                       onChange={handleChange}
                       onBlur={handleBlur}

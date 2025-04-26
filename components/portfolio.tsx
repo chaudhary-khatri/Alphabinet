@@ -25,7 +25,7 @@ const PortfolioItem: React.FC<{ image: string; title: string; category: string }
       className="group relative overflow-hidden rounded-2xl backdrop-blur-md bg-white/80 border border-maroon-100/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-maroon-200 dark:bg-gray-900/70 dark:border-maroon-900/80 dark:hover:border-maroon-800"
     >
       {/* Animated gradient overlay */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true">
         <div className="absolute -inset-8 bg-gradient-to-r from-maroon-500/10 to-transparent opacity-30 animate-gradient-rotate" />
       </div>
 
@@ -34,6 +34,7 @@ const PortfolioItem: React.FC<{ image: string; title: string; category: string }
         className="absolute inset-0 w-full h-full text-maroon-200/30 dark:text-maroon-900/30 pointer-events-none"
         viewBox="0 0 100 100"
         preserveAspectRatio="none"
+        aria-hidden="true"
       >
         <pattern id="diagonal-grid" width="15" height="15" patternUnits="userSpaceOnUse">
           <path d="M 0 0 L 15 0 15 15" fill="none" stroke="currentColor" strokeWidth="0.8" />
@@ -41,17 +42,22 @@ const PortfolioItem: React.FC<{ image: string; title: string; category: string }
         <rect width="100%" height="100%" fill="url(#diagonal-grid)" />
       </svg>
 
+      {/* Optimized Image */}
       <div className="aspect-video overflow-hidden relative rounded-t-2xl">
         <Image
           src={image}
           alt={title}
           width={800}
           height={600}
+          quality={75} // Compress without losing too much quality
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width: 640px) 90vw, (max-width: 1024px) 50vw, 33vw"
+          loading="lazy" // lazy load for below-the-fold items
+          placeholder="blur" // Optional: Add blur placeholder if available
+          blurDataURL="/placeholder.png" // Optional: Use a low-quality placeholder
           priority={false}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true" />
       </div>
 
       <div className="relative z-10 p-6 space-y-3">
@@ -64,10 +70,11 @@ const PortfolioItem: React.FC<{ image: string; title: string; category: string }
         <motion.div whileHover={{ x: 4 }} className="inline-block">
           <Link
             href="#"
+            aria-label={`View case study for ${title}`} // Better accessibility for screen readers
             className="inline-flex items-center text-maroon-600 hover:text-maroon-700 dark:text-maroon-300 dark:hover:text-maroon-400 font-medium text-sm transition-colors"
           >
             View Case Study
-            <ChevronRight className="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" />
+            <ChevronRight className="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" aria-hidden="true" />
           </Link>
         </motion.div>
       </div>
@@ -78,25 +85,24 @@ const PortfolioItem: React.FC<{ image: string; title: string; category: string }
 export default function Portfolio() {
 
   const projects = [
-  { image: '/portfolio/web1.jpg', title: 'Corporate Website Rebuild', category: 'Web Development' },
-  { image: '/portfolio/webdesign.jpg', title: 'Freelancer Portfolio Site', category: 'Web Development' },
-  { image: '/portfolio/dashboard.jpg', title: 'Analytics Dashboard UI', category: 'UI/UX Design' },
-  { image: '/portfolio/wireframe.jpg', title: 'Mobile App Wireframes', category: 'UI/UX Design' },
-  { image: '/portfolio/ecommerce.jpg', title: 'Fashion E-Commerce Store', category: 'E-Commerce Solutions' },
-  { image: '/portfolio/dilevery.jpg', title: 'Grocery Delivery Platform', category: 'E-Commerce Solutions' },
-  { image: '/portfolio/crm.jpg', title: 'CRM System', category: 'Custom Web Applications' },
-  { image: '/portfolio/inventory.jpg', title: 'Inventory Management App', category: 'Custom Web Applications' },
-  { image: '/portfolio/fitness.jpg', title: 'Fitness Tracker App', category: 'Mobile App Development' },
-  { image: '/portfolio/payment.jpg', title: 'UPI Payment Wallet', category: 'Mobile App Development' },
-  { image: '/portfolio/ads.jpg', title: 'Social Media Campaign', category: 'Digital Marketing' },
-  { image: '/portfolio/seo.jpg', title: 'SEO Optimization Case Study', category: 'Digital Marketing' },
-];
-
+    { image: '/portfolio/web1.webp', title: 'Corporate Website Rebuild', category: 'Web Development' },
+    { image: '/portfolio/webdesign.webp', title: 'Freelancer Portfolio Site', category: 'Web Development' },
+    { image: '/portfolio/dashboard.webp', title: 'Analytics Dashboard UI', category: 'UI/UX Design' },
+    { image: '/portfolio/wireframe.webp', title: 'Mobile App Wireframes', category: 'UI/UX Design' },
+    { image: '/portfolio/ecommerce.webp', title: 'Fashion E-Commerce Store', category: 'E-Commerce Solutions' },
+    { image: '/portfolio/dilevery.webp', title: 'Grocery Delivery Platform', category: 'E-Commerce Solutions' },
+    { image: '/portfolio/crm.webp', title: 'CRM System', category: 'Custom Web Applications' },
+    { image: '/portfolio/inventory.webp', title: 'Inventory Management App', category: 'Custom Web Applications' },
+    { image: '/portfolio/fitness.webp', title: 'Fitness Tracker App', category: 'Mobile App Development' },
+    { image: '/portfolio/payment.webp', title: 'UPI Payment Wallet', category: 'Mobile App Development' },
+    { image: '/portfolio/ads.webp', title: 'Social Media Campaign', category: 'Digital Marketing' },
+    { image: '/portfolio/seo.webp', title: 'SEO Optimization Case Study', category: 'Digital Marketing' },
+  ];
 
   return (
     <section id="portfolio" className="py-24 bg-gray-50/50 dark:bg-gray-950 relative overflow-hidden">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 opacity-10 dark:opacity-5 pointer-events-none">
+      {/* Background grid pattern */}
+      <div className="absolute inset-0 opacity-10 dark:opacity-5 pointer-events-none" aria-hidden="true">
         <div className="absolute inset-0 bg-[url('/svg/grid-pattern.svg')] bg-[size:120px_120px]" />
       </div>
 
@@ -138,9 +144,9 @@ export default function Portfolio() {
           transition={{ delay: 0.2 }}
           className="text-center mt-20"
         >
-          <Link href="#contact">
+          <Link href="#contact" aria-label="Start your journey by contacting us">
             <Button
-              className="relative overflow-hidden px-8 py-6 text-lg bg-maroon-600 hover:bg-maroon-700 dark:bg-maroon-700 dark:hover:bg-maroon-800 text-white shadow-xl hover:shadow-maroon-400/30 transition-all"
+              className="relative overflow-hidden px-8 py-6 text-lg bg-maroon-600 hover:bg-maroon-700 dark:bg-maroon-700 dark:hover:bg-maroon-800 text-white shadow-xl hover:shadow-maroon-400/30 transition-all group"
               size="lg"
             >
               <span className="relative z-10">Start Your Journey</span>

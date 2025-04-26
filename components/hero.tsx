@@ -27,7 +27,7 @@ export default function HeroSection() {
               strokeWidth="0.5"
             />
           </pattern>
-          <rect width="100" height="100" fill="url(#grid)" />
+          <rect width="100%" height="100%" fill="url(#grid)" />
         </svg>
       </div>
 
@@ -56,12 +56,14 @@ export default function HeroSection() {
               <button
                 onClick={() => onLinkClick("contact")}
                 className="bg-white text-maroon-800 hover:bg-gray-100 px-6 py-3 text-base rounded-md"
+                aria-label="Get in touch"
               >
                 Get in Touch
               </button>
               <button
                 onClick={() => onLinkClick("portfolio")}
                 className="border border-white bg-maroon-800/10 px-6 py-3 text-base rounded-md text-white"
+                aria-label="View our portfolio"
               >
                 View Our Work
               </button>
@@ -75,10 +77,11 @@ export default function HeroSection() {
             className="flex justify-center"
           >
             <Image
-              src="/herosection.jpg"
+              src="/herosection.webp"  // Updated to WebP for optimized image delivery
               alt="Digital Solutions"
               width={600}
               height={600}
+              priority  // Ensure this image loads above the fold
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 600px"
               className="w-full h-auto rounded-lg shadow-2xl"
             />
@@ -88,7 +91,7 @@ export default function HeroSection() {
 
       {/* Scroll Indicator */}
       <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2">
-        <button onClick={() => onLinkClick("contact")}>
+        <button onClick={() => onLinkClick("contact")} aria-label="Scroll to contact section">
           <motion.div
             className="flex flex-col items-center text-white cursor-pointer animate-bounce"
             initial={{ opacity: 0 }}

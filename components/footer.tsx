@@ -14,7 +14,7 @@ export default function Footer() {
           <div className="space-y-4">
             <Link href="/" className="inline-block">
               <div className="flex items-center">
-                <Image src="/mainlogo.svg" alt="Logo" width={40} height={40} className="object-contain" />
+                <Image src="/logo.png" alt="Logo" width={40} height={40} className="object-contain" />
                 <span className="ml-2 text-xl font-bold text-white">
                   Alpha<span className="text-maroon-400">binet</span>
                 </span>

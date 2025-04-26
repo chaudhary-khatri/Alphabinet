@@ -8,13 +8,20 @@ import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
-const GA_ID = "G-X1W45S53D8";
+const GA_ID = "G-X1W45S53D8"; // replace with your actual GA ID if different
 
 export const metadata: Metadata = {
   title: "Alphabinet - Digital Solutions Agency",
   description:
     "Alphabinet is an expert digital solutions agency offering web development, UI/UX design, e-commerce solutions, and more.",
-  keywords: "digital agency, web development, UI/UX design, e-commerce, mobile app development, digital marketing",
+  keywords: [
+    "digital agency",
+    "web development",
+    "UI/UX design",
+    "e-commerce",
+    "mobile app development",
+    "digital marketing",
+  ],
   authors: [{ name: "Alphabinet Team" }],
   creator: "Alphabinet",
   publisher: "Alphabinet",
@@ -60,7 +67,7 @@ export const metadata: Metadata = {
     title: "Alphabinet - Digital Solutions Agency",
     description:
       "Alphabinet is an expert digital solutions agency offering web development, UI/UX design, e-commerce solutions, and more.",
-    images: ["https://alphabinet.com/twitter-image.jpg"],
+      images: ["https://alphabinet.com/og-image.jpg"],
   },
   icons: {
     icon: [
@@ -73,7 +80,7 @@ export const metadata: Metadata = {
     apple: "/favicon_io/apple-touch-icon.png",
   },
   manifest: "/favicon_io/site.webmanifest",
-  generator: "v0.dev",
+  generator: "Next.js by Alphabinet",
 };
 
 export default function RootLayout({
@@ -84,7 +91,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Google tag (gtag.js) */}
+        {/* Google Analytics */}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
           strategy="afterInteractive"
@@ -96,10 +103,35 @@ gtag('js', new Date());
 gtag('config', '${GA_ID}', { page_path: window.location.pathname });`}
         </Script>
 
-        {/* Google Search Console Verification */}
-        <meta name="google-site-verification" content="your-verification-code" />
+        {/* Google Site Verification */}
+        <meta
+          name="google-site-verification"
+          content="your-verification-code"
+        />
 
-        {/* Structured Data for Organization */}
+        {/* PWA Manifest */}
+        <link rel="manifest" href="/favicon_io/site.webmanifest" />
+        <meta name="theme-color" content="#a6213c" />
+
+        {/* Favicon icons */}
+        <link
+          rel="icon"
+          href="/favicon_io/favicon-32x32.png"
+          sizes="32x32"
+          type="image/png"
+        />
+        <link
+          rel="icon"
+          href="/favicon_io/favicon-16x16.png"
+          sizes="16x16"
+          type="image/png"
+        />
+        <link
+          rel="apple-touch-icon"
+          href="/favicon_io/apple-touch-icon.png"
+        />
+
+        {/* Structured Data: Organization */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -126,7 +158,7 @@ gtag('config', '${GA_ID}', { page_path: window.location.pathname });`}
           }}
         />
 
-        {/* Preconnect for Google Fonts */}
+        {/* Google Fonts */}
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
           rel="stylesheet"
